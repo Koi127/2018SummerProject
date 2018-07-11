@@ -1,0 +1,14 @@
+body{
+  width:1005px;
+  height:720px;
+  border: solid black 5px;
+  background-image: url("https://img00.deviantart.net/156e/i/2012/020/1/9/grass_plain_by_gavinthemjkid-d4n0r5w.jpg");
+  background-repeat: no-repeat;
+  background-size:1005px 720px;
+}
+h1{
+  font-size: 100px;
+}
+button{
+  
+}
