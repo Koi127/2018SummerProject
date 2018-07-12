@@ -1,5 +1,4 @@
-
-$(document).ready(function(){
+function initialize(){
   $("#restart").hide();
   Crafty.sprite("https://i.imgur.com/vCtCn9m.png", {Character:[0,0,50,50]});
   Crafty.sprite("https://i.imgur.com/vVeZbHk.png", {Enemy:[0,0,10,50]});
@@ -7,6 +6,8 @@ $(document).ready(function(){
   var screenheight = 1000;
   var screenwidth = 1000;
   var destroyGround = false;
+  var delayEnemy = null;
+  var delayPlatform = null;
   function drawCharacter(xPos, yPos){
     var character = Crafty.e('2D, Canvas, Shape, Color, Gravity, Keyboard, Twoway,GroundAttacher,Collision,Character');
     character.h = 50;
@@ -28,6 +29,7 @@ $(document).ready(function(){
           return destroyGround = true;
         }
         if(character.y>700){
+          character.destroy();
           Crafty.enterScene('scene2');
         }
         if(character.x>1000){
@@ -50,7 +52,6 @@ $(document).ready(function(){
       platform.y++;
       if(platform.y>700){
           platform.destroy();
-
       }
     })
   }
@@ -70,7 +71,7 @@ function drawEnemy(){
 }
 
 function randomEnemy(){
-  setInterval(function(){
+  delayEnemy = setInterval(function(){
     var setRandomEnemy= Math.floor(Math.random() * 4);
     for(var x=0; x<setRandomEnemy; x++){
       drawEnemy();
@@ -81,13 +82,12 @@ function randomEnemy(){
 }
 
 function delay(){
-  setInterval(function(){
+  delayPlatform = setInterval(function(){
     var randomPlatform= Math.floor(Math.random() * 4+1);
     for(var x=0; x<randomPlatform; x++){
       drawPlatform();
     }
-    drawPlatform();
-
+    // drawPlatform();
   }, 1900);
 }
 
@@ -129,16 +129,22 @@ function delay(){
       sceneTwo.w=screenwidth;
       sceneTwo.h=screenheight;
     }
+    clearInterval(delayEnemy);
+    clearInterval(delayPlatform);
+
     $('#over').text('Game Over');
     $('#over').show();
     $("#restart").show();
   });
 
-  $('#restart').click(function(){
-    Crafty.enterScene('scene1');
-  });
-
   Crafty.init(screenwidth, screenheight);
   Crafty.enterScene('scene1');
 
+}
+
+$(document).ready(function(){
+  initialize();
+  $('#restart').click(function(){
+    initialize();
+  });
 });
